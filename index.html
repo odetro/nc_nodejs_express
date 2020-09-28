@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <div id="history">
+            Loading...
+        </div>
+        <form id="form_new_message">
+            <input name="name" placeholder="name">
+            <input name="message" placeholder="message">
+            <input type="submit"> 
+            <button id="clear-history" type="button">clear history</button>
+        </form>
+
+        <script>
+            const form = document.querySelector('#form_new_message')
+            const historyElement = document.querySelector('#history')
+            const clearHistoryBtn = document.querySelector('#clear-history')
+
+            form.addEventListener('submit', event => {
+                event.preventDefault();
+                const name = form.name.value;
+                const message = form.message.value;
+                sendMessage(name, message);
+            })
+
+            clearHistoryBtn.addEventListener('click', event => {
+                event.preventDefault();
+                clearHistory();
+            })
+
+            async function clearHistory() {
+                const response = await fetch(`http://localhost:8080/clear-history`);
+                const messages = await response.json();
+                renderMessages(messages);
+            }
+
+            async function displayMessages() {
+                const response = await fetch(`http://localhost:8080/display-messages`);
+                const messages = await response.json();
+                renderMessages(messages);
+            }
+
+            async function sendMessage(name, message) {
+                const response = await fetch(`http://localhost:8080/create-message?name=${name}&message=${message}`);
+                const messages = await response.json();
+                renderMessages(messages);
+                form.message.value = "";
+            }
+
+            function renderMessages (messages) {
+                historyElement.innerHTML = messages.reduce((html, {name, message}) => {
+                    html += `
+                         <div class="message">
+                            <span class="message-author">${name}: </span>
+                            <span class="message-text">${message}</span>
+                        </div>
+                    `;
+                    return html;
+                }, '');
+            }
+
+            displayMessages();
+
+        </script>
+    </body>
+</html>
