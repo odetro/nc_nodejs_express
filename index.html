@@ -24,6 +24,8 @@
             const historyElement = document.querySelector('#history')
             const clearHistoryBtn = document.querySelector('#clear-history')
 
+            const serverURL = "http://localhost:8080"
+
             form.addEventListener('submit', event => {
                 event.preventDefault();
                 const name = form.name.value;
@@ -37,20 +39,32 @@
             })
 
             async function clearHistory() {
-                const response = await fetch(`http://localhost:8080/clear-history`);
+                const response = await fetch(`${serverURL}/messages`, {
+                    method: "DELETE",
+                });
                 const messages = await response.json();
                 renderMessages(messages);
             }
 
             async function displayMessages() {
-                const response = await fetch(`http://localhost:8080/display-messages`);
+                const response = await fetch(`${serverURL}/messages`);
                 const messages = await response.json();
                 renderMessages(messages);
             }
 
             async function sendMessage(name, message) {
-                const response = await fetch(`http://localhost:8080/create-message?name=${name}&message=${message}`);
+                const response = await fetch(`${serverURL}/create-message`, {
+                    method: "POST",
+                    body: JSON.stringify({
+                        "name": name,
+                        "message": message,
+                    }),
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                });
                 const messages = await response.json();
+                console.log(messages);
                 renderMessages(messages);
                 form.message.value = "";
             }
