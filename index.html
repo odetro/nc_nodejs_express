@@ -31,12 +31,12 @@
                 const name = form.name.value;
                 const message = form.message.value;
                 sendMessage(name, message);
-            })
+            });
 
             clearHistoryBtn.addEventListener('click', event => {
                 event.preventDefault();
                 clearHistory();
-            })
+            });
 
             async function clearHistory() {
                 const response = await fetch(`${serverURL}/messages`, {
@@ -44,16 +44,16 @@
                 });
                 const messages = await response.json();
                 renderMessages(messages);
-            }
+            };
 
             async function displayMessages() {
                 const response = await fetch(`${serverURL}/messages`);
                 const messages = await response.json();
                 renderMessages(messages);
-            }
+            };
 
             async function sendMessage(name, message) {
-                const response = await fetch(`${serverURL}/create-message`, {
+                const response = await fetch(`${serverURL}/messages`, {
                     method: "POST",
                     body: JSON.stringify({
                         "name": name,
@@ -64,22 +64,56 @@
                     },
                 });
                 const messages = await response.json();
-                console.log(messages);
                 renderMessages(messages);
                 form.message.value = "";
-            }
+            };
+
+            async function deleteMessage(id) {
+                const response = await fetch(`${serverURL}/messages/${id}`, {
+                    method: "DELETE",
+                });
+                const messages = await response.json();
+                renderMessages(messages);
+            };
+
+            async function editMessage(id) {
+                let newMessage = prompt("Enter new message");
+                const response = await fetch(`${serverURL}/messages/${id}/${newMessage}`, {
+                    method: "PUT",
+                });
+                const messages = await response.json();
+                renderMessages(messages);
+            };
 
             function renderMessages (messages) {
-                historyElement.innerHTML = messages.reduce((html, {name, message}) => {
+                historyElement.innerHTML = messages.reduce((html, {name, message, id}) => {
                     html += `
                          <div class="message">
                             <span class="message-author">${name}: </span>
                             <span class="message-text">${message}</span>
+                            <button class="editMessageBtn" id="${id}_edit" type="button">edit</button>
+                            <button class="deleteMessageBtn" id="${id}_delete" type="button">X</button>
                         </div>
                     `;
                     return html;
                 }, '');
-            }
+                
+                document.querySelectorAll('.deleteMessageBtn').forEach(btn => {
+                    let id = (btn.id).replace('_delete','');
+                    btn.addEventListener('click', event => {
+                        event.preventDefault();
+                        deleteMessage(id);
+                    })
+                });
+
+                document.querySelectorAll('.editMessageBtn').forEach(btn => {
+                    let id = (btn.id).replace('_edit','');
+                    btn.addEventListener('click', event => {
+                        event.preventDefault();
+                        editMessage(id);
+                    })
+                });
+            };
 
             displayMessages();
 
