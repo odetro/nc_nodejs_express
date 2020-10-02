@@ -1,6 +1,5 @@
 const express = require('express');
 const fs = require('fs');
-const { RSA_NO_PADDING } = require('constants');
 const app = express();
 
 const history = require('./history.json') || [];
