@@ -6,17 +6,18 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
+        <link rel="stylesheet" type="text/css" href="stylesheet.css">
     </head>
     <body>
-        <div id="history">
+        <h1>NodeJS Express Chat</h1>
+        <div id="history" class="messages-container">
             Loading...
         </div>
         <form id="form_new_message">
             <input name="name" placeholder="name">
             <input name="message" placeholder="message">
-            <input type="submit"> 
-            <button id="clear-history" type="button">clear history</button>
+            <input class="btn submitbtn" type="submit"> 
+            <button class="btn deletebtn" id="clear-history" type="button">clear history</button>
         </form>
 
         <script>
@@ -91,8 +92,8 @@
                          <div class="message">
                             <span class="message-author">${name}: </span>
                             <span class="message-text">${message}</span>
-                            <button class="editMessageBtn" id="${id}_edit" type="button">edit</button>
-                            <button class="deleteMessageBtn" id="${id}_delete" type="button">X</button>
+                            <button class="btn editMessageBtn" id="${id}_edit" type="button"><img src="edit-icon.svg"></button>
+                            <button class="btn deleteMessageBtn" id="${id}_delete" type="button"><img src="x-icon.svg"></button>
                         </div>
                     `;
                     return html;

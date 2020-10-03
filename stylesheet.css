@@ -1,0 +1,88 @@
+body {
+    background-color: #96D1F3;
+    color: white;
+    padding: 10px 200px;
+    font-family: roboto;
+}
+
+.messages-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.messages-container .message {
+    background-color: white;
+    color:  #969696;
+    border-radius:10px;
+    border-bottom-left-radius: 0;
+    padding: 4px 10px;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    align-self: flex-start;
+}
+
+.messages-container > .message > .message-author {
+    font-weight: bold;
+    color: #E85000;
+    margin-right: 4px;
+}
+
+.messages-container > .message > .message-text {
+    margin-right: 15px;
+}
+
+form {
+    margin-top:20px;
+}
+
+form input {
+    background-color: #f1f1f1;
+    border-radius: 6px;
+    border: none;
+    padding: 8px;
+    margin-right: 6px;
+}
+
+form .submitbtn {
+    background-color: #70B557;
+    color: white;
+}
+
+form .submitbtn:hover {
+    background-color: #609c4b;
+    cursor: pointer;
+}
+
+form .deletebtn {
+    background-color: #e96767;
+    color: white;
+}
+
+form .deletebtn:hover {
+    background-color: #c45252;
+    cursor: pointer;
+}
+
+.btn {
+    border-radius: 6px;
+    border: none;
+    padding: 8px;
+    margin-right: 6px;
+}
+
+.btn:hover {
+    background-color: rgba(0,0,0,0.3);
+    cursor: pointer;
+}
+
+.messages-container .message .btn {
+    display: flex;
+    justify-content: center;
+}
+
+.btn img{
+    height: 15px;
+}

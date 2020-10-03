@@ -9,6 +9,7 @@ function saveHistory(history) {
     fs.writeFileSync('./history.json', JSON.stringify(history,{encoding: 'utf-8'}))
 }
 
+app.use(express.static(__dirname));
 app.use(express.json());
 
 app.get('/', (req, res) => {
