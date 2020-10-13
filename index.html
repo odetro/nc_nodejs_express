@@ -79,8 +79,14 @@
 
             async function editMessage(id) {
                 let newMessage = prompt("Enter new message");
-                const response = await fetch(`${serverURL}/messages/${id}/${newMessage}`, {
+                const response = await fetch(`${serverURL}/messages/${id}`, {
                     method: "PUT",
+                    body: JSON.stringify({
+                        "message": newMessage,
+                    }),
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
                 });
                 const messages = await response.json();
                 renderMessages(messages);

@@ -28,10 +28,11 @@ app.post('/messages', (req, res) => { //create new
     res.send(history);
 });
 
-app.put('/messages/:id/:newMessage', (req, res) => { //replace a message
+app.put('/messages/:id', (req, res) => { //replace a message
+    let newMessage = req.body.message;
     for (let i=0 ; i<history.length ; i++)  {
         if (req.params.id == history[i].id) {
-            history[i].message = req.params.newMessage;
+            history[i].message = newMessage;
         }
     };
     saveHistory(history);
